@@ -47,6 +47,6 @@ app.get("/dated/:date", async (rq, rs) => {
   rs.send(reminders)
 })
 
-app.listen(4000, () => {
-  console.log("ready...")
+app.listen(() => {
+  console.log("App is serving and ready.")
 })
