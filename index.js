@@ -12,6 +12,10 @@ function getFormattedDate() {
   return `${day}`;
 }
 
+app.get("/", (rq, rs) => {
+  rs.send("v1.0.0 - api ready...")
+})
+
 app.get("/new/:id", async (rq, rs) => {
   const userId = rq.params.id
   const price = rq.headers.price
