@@ -47,6 +47,6 @@ app.get("/dated/:date", async (rq, rs) => {
   rs.send(reminders)
 })
 
-app.listen(() => {
+app.listen(process.env.PORT, () => {
   console.log("App is serving and ready.")
 })
