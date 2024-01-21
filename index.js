@@ -27,6 +27,8 @@ app.get("/delete/:id", async (rq, rs) => {
 })
 
 app.get("/new/:id", async (rq, rs) => {
+  rq.params.id = rq.params.id.replace("<@", "")
+  rq.params.id = rq.params.id.replace(">", "")
   const userId = rq.params.id
   const price = rq.headers.price
   const date = getFormattedDate()
