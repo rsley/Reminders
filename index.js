@@ -17,7 +17,7 @@ app.get("/", (rq, rs) => {
 })
 
 app.get("/delete/:id", async (rq, rs) => {
-  const userId = rq.parans.id
+  const userId = rq.params.id
 
   let reminder = await Profile.findOne({ where: { id: userId }})
 
