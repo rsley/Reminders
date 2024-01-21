@@ -16,6 +16,16 @@ app.get("/", (rq, rs) => {
   rs.send("v1.0.0 - api ready...")
 })
 
+app.get("/delete/:id", async (rq, rs) => {
+  const userId = rq.parans.id
+
+  let reminder = await Profile.findOne({ where: { id: userId }})
+
+  if(reminder) await Profile.destroy({ where: { id: userId }})
+
+  rs.status(200).send("ok")
+})
+
 app.get("/new/:id", async (rq, rs) => {
   const userId = rq.params.id
   const price = rq.headers.price
