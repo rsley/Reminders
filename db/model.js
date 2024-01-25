@@ -8,7 +8,7 @@ const Profile = sequelize.define("Profile", {
     allowNull: false,
     unique: true,
   },
-  price: {
+  dni: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -16,6 +16,10 @@ const Profile = sequelize.define("Profile", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  }
 });
 
 (async () => {
