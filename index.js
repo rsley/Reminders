@@ -2,19 +2,16 @@ const app = require("express")()
 const Profile = require("./db/model")
 
 global.logger = console.log
-                    
-function getFormattedDate() {
-  const today = new Date();
-  const day = String(today.getDate()).padStart(2, '0');
-  //const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-  //const year = today.getFullYear();
-
-  return `${day}`;
-}
 
 app.get("/", (rq, rs) => {
   rs.send("v1.0.0 - api ready...")
 })
+
+function generateDNI() {
+  const min = 10000;
+    const max = 99999;
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 app.get("/delete/:id", async (rq, rs) => {
   const userId = rq.params.id
@@ -31,31 +28,32 @@ app.get("/new/:id", async (rq, rs) => {
   rq.params.id = rq.params.id.replace(">", "")
   rq.params.id = rq.params.id.replace("!", "")
   const userId = rq.params.id
-  const price = rq.headers.price
-  const date = getFormattedDate()
+  const date = rq.headers.date
+  const username = rq.headers.username
 
   let reminder = await Profile.findOne({ where: { id: userId } })
+  let dni = generateDNI()
 
   if (!reminder) {
     reminder = await Profile.create({
       id: userId,
-      price,
-      date
+      date,
+      username,
+      dni
     })
   } else {
-    reminder.price = price
     reminder.date = date
+    reminder.username = username
     await reminder.save()
   }
 
   rs.send(reminder)
 })
-app.get("/getdate/", async (rq, rs) => {
-  rs.send(getFormattedDate())
-})
-app.get("/dated/:date", async (rq, rs) => {
-  const date = rq.params.date
-  const reminders = await Profile.findAll({ where: { date } })
+app.get("/:id", async (rq, rs) => {
+  rq.params.id = rq.params.id.replace("<@", "")
+  rq.params.id = rq.params.id.replace(">", "")
+  rq.params.id = rq.params.id.replace("!", "")
+  const reminders = await Profile.findOne({ where: { userId: rq.params.id } })
 
   rs.send(reminders)
 })
