@@ -53,7 +53,7 @@ app.get("/:id", async (rq, rs) => {
   rq.params.id = rq.params.id.replace("<@", "")
   rq.params.id = rq.params.id.replace(">", "")
   rq.params.id = rq.params.id.replace("!", "")
-  const reminders = await Profile.findOne({ where: { userId: rq.params.id } })
+  const reminders = await Profile.findOne({ where: { id: rq.params.id } })
   if(!reminders) rs.status(404)
 
   rs.send(reminders)
