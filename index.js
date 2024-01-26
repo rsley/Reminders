@@ -29,6 +29,7 @@ app.get("/new/:id", async (rq, rs) => {
   rq.params.id = rq.params.id.replace("!", "")
   const userId = rq.params.id
   const date = rq.headers.date
+  const name = rq.headers.name
   const username = rq.headers.username
 
   let reminder = await Profile.findOne({ where: { id: userId } })
@@ -39,7 +40,8 @@ app.get("/new/:id", async (rq, rs) => {
       id: userId,
       date,
       username,
-      dni
+      dni,
+      name
     })
   } else {
     reminder.date = date
