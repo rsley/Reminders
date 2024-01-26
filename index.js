@@ -32,6 +32,8 @@ app.get("/new/:id", async (rq, rs) => {
   const name = rq.headers.name
   const username = rq.headers.username
 
+  if(!id || !date || !name || !username) return rs.status(502).send("No values.")
+
   let reminder = await Profile.findOne({ where: { id: userId } })
   let dni = generateDNI()
 
